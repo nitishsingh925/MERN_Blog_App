@@ -1,23 +1,41 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.username || !formData.email || !formData.password) {
+      setErrorMessage("Please fill all the fields");
+      return;
+    }
     try {
+      setLoading(true);
+      setErrorMessage(null);
       const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+      if (data.success === false) {
+        setLoading(false);
+        return setErrorMessage(data.message);
+      }
+      if (data.success === true) {
+        setLoading(false);
+        navigate("/sign-in");
+      }
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      setErrorMessage(error.message);
     }
   };
   return (
@@ -75,9 +93,29 @@ const SignUp = () => {
               className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 dark:bg-neutral-700"
             />
           </div>
-          <button className="w-full px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg font-bold">
-            Sign Up
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg font-bold"
+          >
+            {loading ? (
+              <div className="flex justify-center">
+                <img
+                  src="icons/spinner.svg"
+                  alt="spiner"
+                  className="w-6 md:w-7"
+                />
+                <span className="px-2">Loading..</span>
+              </div>
+            ) : (
+              "Sign Up"
+            )}
           </button>
+          {errorMessage && (
+            <div className="text-center my-3 text-red-600 bg-red-200 rounded-lg  sm:text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl">
+              {errorMessage}
+            </div>
+          )}
         </form>
         <div className="text-center py-8">
           <Link to={"/sign-in"}>
