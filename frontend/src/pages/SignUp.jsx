@@ -1,6 +1,25 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
+  const [formData, setFormData] = useState({});
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex flex-col-reverse md:flex-row items-center pt-11  dark:bg-neutral-700 dark:text-white ">
       {/* left */}
@@ -22,13 +41,17 @@ const SignUp = () => {
       </div>
       {/* right */}
       <div className="md:w-1/2 mb-5">
-        <form className="max-w-md mx-auto p-4 shadow-2xl rounded-md dark:border-2 border-white">
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-md mx-auto p-4 shadow-2xl rounded-md dark:border-2 border-white"
+        >
           <div className="mb-4">
             <label htmlFor="username">Your username</label>
             <input
               type="text"
               placeholder="Username"
               id="username"
+              onChange={handleChange}
               className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 dark:bg-neutral-700"
             />
           </div>
@@ -38,6 +61,7 @@ const SignUp = () => {
               type="text"
               placeholder="name@gmail.com"
               id="email"
+              onChange={handleChange}
               className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 dark:bg-neutral-700"
             />
           </div>
@@ -47,6 +71,7 @@ const SignUp = () => {
               type="password"
               placeholder="Password"
               id="password"
+              onChange={handleChange}
               className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 dark:bg-neutral-700"
             />
           </div>
