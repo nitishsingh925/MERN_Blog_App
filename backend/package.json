@@ -5,12 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node    --env-file .env    src/index.js    --watch",
+    "dev": "node  --watch  --env-file .env    src/index.js",
     "start": "node  --env-file .env     src/index.js"
   },
   "author": "Nitish Singh",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^8.1.1"
   }
 }
