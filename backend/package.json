@@ -1,0 +1,16 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node    --env-file .env    src/index.js    --watch",
+    "start": "node  --env-file .env     src/index.js"
+  },
+  "author": "Nitish Singh",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
