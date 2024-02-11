@@ -30,5 +30,10 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
+// Method to compare the user's password with the hashed password in the database
+userSchema.methods.isPasswordCorrect = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
 const User = model("User", userSchema);
 export default User;
