@@ -69,9 +69,35 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="border-t border-teal-700 mt-4 p-4">
+        <div className="border-t border-teal-700 mt-4 p-4 flex justify-between">
           <div className="sm:text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl">
             ©️ {new Date().getFullYear()} Nitish's Blog
+          </div>
+          <div className="flex">
+            <Link to={"https://github.com/nitishsingh925"}>
+              <img src="socialMedia/github.svg" alt="github" className="w-8" />
+            </Link>
+            <Link to={"https://www.facebook.com/"}>
+              <img
+                src="socialMedia/facebook.svg"
+                alt="facebook"
+                className="w-8"
+              />
+            </Link>
+            <Link to={"http://linkedin.com/in/nitishsingh925"}>
+              <img
+                src="socialMedia/linkedin.svg"
+                alt="linkedin"
+                className="w-8"
+              />
+            </Link>
+            <Link to={"https://twitter.com/nitishsingh925"}>
+              <img
+                src="socialMedia/twitterx.svg"
+                alt="twitter"
+                className="w-8"
+              />
+            </Link>
           </div>
         </div>
       </div>
