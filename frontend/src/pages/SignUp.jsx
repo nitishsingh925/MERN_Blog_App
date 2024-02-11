@@ -89,6 +89,7 @@ const SignUp = () => {
               type="password"
               placeholder="Password"
               id="password"
+              autoComplete="off"
               onChange={handleChange}
               className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500 dark:bg-neutral-700"
             />
