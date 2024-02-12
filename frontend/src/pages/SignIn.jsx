@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../utils/constants";
 
 const Signin = () => {
   const [formData, setFormData] = useState({});
@@ -19,7 +20,7 @@ const Signin = () => {
     try {
       setLoading(true);
       setErrorMessage(null);
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/signin`, {
+      const res = await fetch(`${API_URL}/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
