@@ -110,7 +110,7 @@ const Signin = () => {
         </form>
         <div className="text-center py-8">
           <Link to={"/sign-up"}>
-            Have an accoun ? <span className="text-blue-500">Sign Up</span>
+            Don't have an accoun ?<span className="text-blue-500">Sign Up</span>
           </Link>
         </div>
       </div>
