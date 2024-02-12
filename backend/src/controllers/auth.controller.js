@@ -80,7 +80,14 @@ const signin = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json(new ApiResponse(500, error.message || "Internal Server Error"));
+      .json(
+        new ApiResponse(
+          error.statusCode || 500,
+          null,
+          error.message || "Internal Server Error",
+          false
+        )
+      );
   }
 };
 
