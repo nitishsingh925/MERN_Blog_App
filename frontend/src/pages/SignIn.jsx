@@ -7,6 +7,7 @@ import {
   signInStart,
   signInSuccess,
 } from "../utils/redux/user/userSlice";
+import OAuth from "../components/OAuth";
 
 const Signin = () => {
   const [formData, setFormData] = useState({});
@@ -105,6 +106,7 @@ const Signin = () => {
               "Sign IN"
             )}
           </button>
+          <OAuth />
           {errorMessage && (
             <div className="text-center my-3 text-red-600 bg-red-200 rounded-lg  sm:text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl">
               {errorMessage}

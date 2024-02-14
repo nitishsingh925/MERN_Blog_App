@@ -91,4 +91,65 @@ const signin = async (req, res) => {
   }
 };
 
-export { signup, signin };
+const google = async (req, res) => {
+  const { email, name, googlePhotoURL } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET
+      );
+      // Remove the password from the user object
+      const { password, ...rest } = user._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(rest);
+    } else {
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const newUser = new User({
+        username:
+          name.toLowerCase().split(" ").join("") +
+          Math.random().toString(9).slice(-4),
+        email,
+        password: generatedPassword,
+        profilePicture: googlePhotoURL,
+      });
+      // Save the new user to the database
+      await newUser.save();
+      // Generate a JWT token
+      const token = jwt.sign(
+        { id: newUser._id, isAdmin: newUser.isAdmin },
+        process.env.JWT_SECRET
+      );
+      // Remove the password from the user object
+      const { password, ...rest } = newUser._doc;
+      // Return a response with the user details and access token
+      return res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+        })
+        .json(rest);
+    }
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json(
+        new ApiResponse(
+          error.statusCode || 500,
+          null,
+          error.message || "Internal Server Error",
+          false
+        )
+      );
+  }
+};
+
+export { signup, signin, google };
