@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import useTheme from "../hooks/useThems";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
 
   const { mode, toggleThemeHandler } = useTheme();
 
@@ -72,8 +74,17 @@ const Header = () => {
       <div className="flex">
         {/* for  big  */}
         <div className="md:flex hidden">{NavItems}</div>
-
-        {NavSignIn}
+        {currentUser ? (
+          <div className="self-center">
+            <img
+              src={currentUser.profilePicture}
+              alt="user"
+              className="rounded-full w-8 h-8"
+            />
+          </div>
+        ) : (
+          { NavSignIn }
+        )}
 
         {/* for small */}
         <div className="md:hidden">
