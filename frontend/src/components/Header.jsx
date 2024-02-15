@@ -15,16 +15,16 @@ const Header = () => {
   const NavSignInProfile = (
     <div className="self-center relative  group">
       <img
-        src={currentUser.profilePicture}
+        src={currentUser?.profilePicture}
         alt="user"
         className="rounded-full w-8 h-8 cursor-pointer hover:opacity-75"
       />
       <div className="hidden absolute group-hover:block right-0 z-10 py-4 w-48 rounded-lg shadow-md dark:bg-neutral-900 dark:text-white bg-gray-200">
         <div className="truncate">
-          <span>@{currentUser.username}</span>
+          <span>@{currentUser?.username}</span>
         </div>
         <div className="truncate">
-          <span>{currentUser.email}</span>
+          <span>{currentUser?.email}</span>
         </div>
         <Link
           to={"/dashbord?tab=profile"}
