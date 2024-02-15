@@ -12,6 +12,30 @@ const Header = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  const NavSignInProfile = (
+    <div className="self-center relative  group">
+      <img
+        src={currentUser.profilePicture}
+        alt="user"
+        className="rounded-full w-8 h-8 cursor-pointer hover:opacity-75"
+      />
+      <div className="hidden absolute group-hover:block right-0 z-10 py-4 w-48 rounded-lg shadow-md dark:bg-neutral-900 dark:text-white bg-gray-200">
+        <div className="truncate">
+          <span>@{currentUser.username}</span>
+        </div>
+        <div className="truncate">
+          <span>{currentUser.email}</span>
+        </div>
+        <Link
+          to={"/dashbord?tab=profile"}
+          className="block px-4 py-2 hover:text-red-400"
+        >
+          Your Profile
+        </Link>
+        <Link className="block px-4 py-2 hover:text-red-400">Sign out</Link>
+      </div>
+    </div>
+  );
   const NavSignIn = (
     <NavLink
       to="/sign-in"
@@ -74,17 +98,8 @@ const Header = () => {
       <div className="flex">
         {/* for  big  */}
         <div className="md:flex hidden">{NavItems}</div>
-        {currentUser ? (
-          <div className="self-center">
-            <img
-              src={currentUser.profilePicture}
-              alt="user"
-              className="rounded-full w-8 h-8"
-            />
-          </div>
-        ) : (
-          { NavSignIn }
-        )}
+        {/* user  */}
+        {currentUser ? NavSignInProfile : NavSignIn}
 
         {/* for small */}
         <div className="md:hidden">
