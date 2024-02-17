@@ -40,6 +40,7 @@ const DashProfile = () => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImageFileUploadProgress(progress.toFixed(0));
+        setImageFileUploadError(null);
       },
       (error) => {
         setImageFileUploadError(
@@ -73,7 +74,7 @@ const DashProfile = () => {
         <img
           src={imageFileUrl || currentUser?.profilePicture}
           alt="user"
-          className="rounded-full border-4 border-teal-700 w-32 cursor-pointer"
+          className="rounded-full border-4 border-teal-500 w-32 cursor-pointer"
         />
       </div>
       {imageFileUploadProgress && (
@@ -97,7 +98,7 @@ const DashProfile = () => {
             id="username"
             defaultValue={currentUser?.username}
             // onChange={handleChange}
-            className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-700 dark:bg-neutral-700"
+            className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500 dark:bg-neutral-700"
           />
         </div>
         <div className="mb-4">
@@ -108,7 +109,7 @@ const DashProfile = () => {
             id="email"
             defaultValue={currentUser?.email}
             // onChange={handleChange}
-            className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-700 dark:bg-neutral-700"
+            className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500 dark:bg-neutral-700"
           />
         </div>
         <div className="mb-4">
@@ -118,7 +119,7 @@ const DashProfile = () => {
             placeholder="password"
             id="password"
             // onChange={handleChange}
-            className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-700 dark:bg-neutral-700"
+            className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500 dark:bg-neutral-700"
           />
         </div>
         <button

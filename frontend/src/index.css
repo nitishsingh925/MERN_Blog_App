@@ -8,4 +8,5 @@
 
 progress{  
     width: 100%; 
-  }  
+}  
+progress::-webkit-progress-value { background: rgb(20 184 166); }

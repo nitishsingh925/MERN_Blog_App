@@ -69,7 +69,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="border-t border-teal-700 mt-4 p-4 flex justify-between">
+        <div className="border-t border-teal-500 mt-4 p-4 flex justify-between">
           <div className="sm:text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl">
             ©️ {new Date().getFullYear()} Nitish's Blog
           </div>
