@@ -1,7 +1,59 @@
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-
+import {
+  getDownloadURL,
+  getStorage,
+  uploadBytesResumable,
+  ref,
+} from "firebase/storage";
+import { app } from "../utils/firebase";
 const DashProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const filePickerRef = useRef();
+  const [imageFile, setImageFile] = useState(null);
+  const [imageFileUrl, setImageFileUrl] = useState(null);
+  const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
+  const [imageFileUploadError, setImageFileUploadError] = useState(null);
+
+  console.log(imageFileUploadProgress, imageFileUploadError);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImageFileUrl(URL.createObjectURL(file));
+    }
+  };
+  useEffect(() => {
+    if (imageFile) {
+      uploadeImage();
+    }
+  }, [imageFile]);
+  const uploadeImage = async () => {
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + "-" + imageFile.name;
+    const storageRef = ref(storage, fileName);
+
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setImageFileUploadProgress(progress.toFixed(0));
+      },
+      (error) => {
+        setImageFileUploadError(
+          "Could not upload image (File must be less than 2MB)"
+        );
+        setImageFileUploadProgress(null);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImageFileUrl(downloadURL);
+        });
+      }
+    );
+  };
   return (
     <div className=" mx-auto">
       <div className="text-center">
@@ -9,14 +61,33 @@ const DashProfile = () => {
           Profile
         </h1>
       </div>
-
-      <div className="mx-24">
+      <input
+        type="file"
+        id="profilePicture"
+        accept="image/*"
+        onChange={handleImageChange}
+        className="hidden"
+        ref={filePickerRef}
+      />
+      <div className="mx-24" onClick={() => filePickerRef.current.click()}>
         <img
-          src={currentUser?.profilePicture}
+          src={imageFileUrl || currentUser?.profilePicture}
           alt="user"
-          className="rounded-full border-4 border-teal-700"
+          className="rounded-full border-4 border-teal-700 w-32 cursor-pointer"
         />
       </div>
+      {imageFileUploadProgress && (
+        <div>
+          <progress size="tiny" value={imageFileUploadProgress} max="100">
+            {imageFileUploadProgress}%
+          </progress>
+        </div>
+      )}
+      {imageFileUploadError && (
+        <div className="bg-red-300 text-red-600 rounded-lg font-semibold">
+          {imageFileUploadError}
+        </div>
+      )}
       <form>
         <div className="mb-4">
           <label htmlFor="username">Your username</label>

@@ -5,3 +5,7 @@
 .active{
     color: red;
 }
+
+progress{  
+    width: 100%; 
+  }  
