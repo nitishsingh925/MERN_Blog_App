@@ -47,5 +47,18 @@ const updateUser = async (req, res) => {
     throw new ApiError(500, "Internal Server Error");
   }
 };
+const deleteUser = async (req, res) => {
+  if (req.user.id !== req.params.userId) {
+    throw new ApiError(403, "You are not allowed to delete this user");
+  }
 
-export { updateUser };
+  try {
+    await User.findByIdAndDelete(req.params.userId);
+    return res
+      .status(200)
+      .json(new ApiResponse(200, null, "User deleted successfully"));
+  } catch (error) {
+    throw new ApiError(500, "Internal Server Error");
+  }
+};
+export { updateUser, deleteUser };
