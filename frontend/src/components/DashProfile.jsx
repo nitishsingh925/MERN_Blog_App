@@ -11,6 +11,9 @@ import {
   updateStart,
   updateSuccess,
   updateFailure,
+  deleteUserStart,
+  deleteUserFailure,
+  deleteUserSuccess,
 } from "../utils/redux/user/userSlice";
 import { API_URL } from "../utils/constants";
 const DashProfile = () => {
@@ -20,6 +23,7 @@ const DashProfile = () => {
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
+  const [deleteAlert, setDeleteAlert] = useState(false);
   const [message, setMessage] = useState(null);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
@@ -91,6 +95,31 @@ const DashProfile = () => {
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    setDeleteAlert(true);
+
+    const userWantDelete = confirm(
+      "Are you sure you want to delete your account?"
+    );
+    if (userWantDelete === true) {
+      try {
+        dispatch(deleteUserStart());
+        const res = await fetch(`${API_URL}/user/delete/${currentUser._id}`, {
+          method: "DELETE",
+          credentials: "include", // Include cookies
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          dispatch(deleteUserFailure(data.message));
+        } else {
+          dispatch(deleteUserSuccess(data));
+        }
+      } catch (error) {
+        dispatch(deleteUserFailure(error.message));
+      }
     }
   };
   return (
@@ -174,7 +203,9 @@ const DashProfile = () => {
         </div>
       )}
       <div className="text-red-500 flex justify-between mt-5">
-        <span className="cursor-pointer">Delete Account</span>
+        <span onClick={handleDeleteUser} className="cursor-pointer">
+          Delete Account
+        </span>
         <span className="cursor-pointer">Sign Out</span>
       </div>
     </div>
