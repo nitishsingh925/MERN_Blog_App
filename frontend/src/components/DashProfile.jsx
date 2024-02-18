@@ -14,12 +14,13 @@ import {
 } from "../utils/redux/user/userSlice";
 import { API_URL } from "../utils/constants";
 const DashProfile = () => {
-  const { currentUser, error, loading } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
   const filePickerRef = useRef();
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
+  const [message, setMessage] = useState(null);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
 
@@ -82,6 +83,7 @@ const DashProfile = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+      setMessage(data.message);
       if (!res.ok) {
         dispatch(updateFailure(data.message));
       } else {
@@ -154,6 +156,7 @@ const DashProfile = () => {
             type="password"
             placeholder="password"
             id="password"
+            autoComplete="off"
             onChange={handleChange}
             className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500 dark:bg-neutral-700"
           />
@@ -165,9 +168,9 @@ const DashProfile = () => {
           Update
         </button>
       </form>
-      {error && (
+      {message && (
         <div className="bg-red-300 text-red-600 rounded-lg font-semibold mt-4">
-          {error}
+          {message}
         </div>
       )}
       <div className="text-red-500 flex justify-between mt-5">
