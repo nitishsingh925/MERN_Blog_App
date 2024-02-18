@@ -61,4 +61,14 @@ const deleteUser = async (req, res) => {
     throw new ApiError(500, "Internal Server Error");
   }
 };
-export { updateUser, deleteUser };
+const signout = (req, res) => {
+  try {
+    res.clearCookie("token");
+    return res
+      .status(200)
+      .json(new ApiResponse(200, null, "User signed out successfully"));
+  } catch (error) {
+    throw new ApiError(500, "Internal Server Error");
+  }
+};
+export { updateUser, deleteUser, signout };

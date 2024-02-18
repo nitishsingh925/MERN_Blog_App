@@ -14,6 +14,7 @@ import {
   deleteUserStart,
   deleteUserFailure,
   deleteUserSuccess,
+  signoutSuccess,
 } from "../utils/redux/user/userSlice";
 import { API_URL } from "../utils/constants";
 const DashProfile = () => {
@@ -122,6 +123,21 @@ const DashProfile = () => {
       }
     }
   };
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`${API_URL}/user/signout`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className=" mx-auto">
       <div className="text-center">
@@ -206,7 +222,9 @@ const DashProfile = () => {
         <span onClick={handleDeleteUser} className="cursor-pointer">
           Delete Account
         </span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span onClick={handleSignout} className="cursor-pointer">
+          Sign Out
+        </span>
       </div>
     </div>
   );

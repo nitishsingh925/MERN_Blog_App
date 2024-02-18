@@ -1,17 +1,37 @@
 import React, { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import useTheme from "../hooks/useThems";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signoutSuccess } from "../utils/redux/user/userSlice";
+import { API_URL } from "../utils/constants";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const { mode, toggleThemeHandler } = useTheme();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`${API_URL}/user/signout`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const NavSignInProfile = (
     <div className="self-center relative  group">
       <img
@@ -32,7 +52,12 @@ const Header = () => {
         >
           Your Profile
         </Link>
-        <Link className="block px-4 py-2 hover:text-red-400">Sign out</Link>
+        <Link
+          onClick={handleSignout}
+          className="block px-4 py-2 hover:text-red-400"
+        >
+          Sign out
+        </Link>
       </div>
     </div>
   );
