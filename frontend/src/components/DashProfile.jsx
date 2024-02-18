@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -7,15 +7,22 @@ import {
   ref,
 } from "firebase/storage";
 import { app } from "../utils/firebase";
+import {
+  updateStart,
+  updateSuccess,
+  updateFailure,
+} from "../utils/redux/user/userSlice";
+import { API_URL } from "../utils/constants";
 const DashProfile = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const filePickerRef = useRef();
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
+  const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
 
-  console.log(imageFileUploadProgress, imageFileUploadError);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -51,9 +58,38 @@ const DashProfile = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
+          setFormData({ ...formData, profilePicture: downloadURL });
         });
       }
     );
+  };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (Object.keys(formData).length === 0) {
+      return;
+    }
+    try {
+      dispatch(updateStart());
+      const res = await fetch(`${API_URL}/user/update/${currentUser._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // Include cookies
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(updateFailure(data.message));
+      } else {
+        dispatch(updateSuccess(data.data));
+      }
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+    }
   };
   return (
     <div className=" mx-auto">
@@ -62,34 +98,34 @@ const DashProfile = () => {
           Profile
         </h1>
       </div>
-      <input
-        type="file"
-        id="profilePicture"
-        accept="image/*"
-        onChange={handleImageChange}
-        className="hidden"
-        ref={filePickerRef}
-      />
-      <div className="mx-24" onClick={() => filePickerRef.current.click()}>
-        <img
-          src={imageFileUrl || currentUser?.profilePicture}
-          alt="user"
-          className="rounded-full border-4 border-teal-500 w-32 cursor-pointer"
+      <form onSubmit={handleSubmit}>
+        <input
+          type="file"
+          id="profilePicture"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="hidden"
+          ref={filePickerRef}
         />
-      </div>
-      {imageFileUploadProgress && (
-        <div>
-          <progress size="tiny" value={imageFileUploadProgress} max="100">
-            {imageFileUploadProgress}%
-          </progress>
+        <div className="mx-24" onClick={() => filePickerRef.current.click()}>
+          <img
+            src={imageFileUrl || currentUser?.profilePicture}
+            alt="user"
+            className="rounded-full border-4 border-teal-500 w-32 cursor-pointer"
+          />
         </div>
-      )}
-      {imageFileUploadError && (
-        <div className="bg-red-300 text-red-600 rounded-lg font-semibold">
-          {imageFileUploadError}
-        </div>
-      )}
-      <form>
+        {imageFileUploadProgress && (
+          <div>
+            <progress size="tiny" value={imageFileUploadProgress} max="100">
+              {imageFileUploadProgress}%
+            </progress>
+          </div>
+        )}
+        {imageFileUploadError && (
+          <div className="bg-red-300 text-red-600 rounded-lg font-semibold">
+            {imageFileUploadError}
+          </div>
+        )}
         <div className="mb-4">
           <label htmlFor="username">Your username</label>
           <input
@@ -97,7 +133,7 @@ const DashProfile = () => {
             placeholder="Username"
             id="username"
             defaultValue={currentUser?.username}
-            // onChange={handleChange}
+            onChange={handleChange}
             className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500 dark:bg-neutral-700"
           />
         </div>
@@ -108,17 +144,17 @@ const DashProfile = () => {
             placeholder="Email"
             id="email"
             defaultValue={currentUser?.email}
-            // onChange={handleChange}
+            onChange={handleChange}
             className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500 dark:bg-neutral-700"
           />
         </div>
         <div className="mb-4">
           <label htmlFor="password">Your password</label>
           <input
-            type="text"
+            type="password"
             placeholder="password"
             id="password"
-            // onChange={handleChange}
+            onChange={handleChange}
             className="w-full p-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500 dark:bg-neutral-700"
           />
         </div>
@@ -129,6 +165,11 @@ const DashProfile = () => {
           Update
         </button>
       </form>
+      {error && (
+        <div className="bg-red-300 text-red-600 rounded-lg font-semibold mt-4">
+          {error}
+        </div>
+      )}
       <div className="text-red-500 flex justify-between mt-5">
         <span className="cursor-pointer">Delete Account</span>
         <span className="cursor-pointer">Sign Out</span>
