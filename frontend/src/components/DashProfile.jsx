@@ -18,7 +18,7 @@ import {
 } from "../utils/redux/user/userSlice";
 import { API_URL } from "../utils/constants";
 const DashProfile = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading } = useSelector((state) => state.user);
   const filePickerRef = useRef();
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -208,6 +208,7 @@ const DashProfile = () => {
         </div>
         <button
           type="submit"
+          disabled={loading || imageFileUploadProgress === 100}
           className="w-full px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg font-bold"
         >
           Update
