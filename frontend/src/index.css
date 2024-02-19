@@ -10,3 +10,14 @@ progress{
     width: 100%; 
 }  
 progress::-webkit-progress-value { background: rgb(20 184 166); }
+
+
+.ql-toolbar {
+    border-radius:1rem 1rem 0 0;
+    background-color: rgb(244, 247, 249);
+  }
+.ql-container{
+    border-radius:0 0 1rem 1rem;
+    height: 70vh;
+}
+
