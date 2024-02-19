@@ -104,7 +104,7 @@ const google = async (req, res) => {
       const { password, ...rest } = user._doc;
       res
         .status(200)
-        .cookie("access_token", token, {
+        .cookie("accessToken", token, {
           httpOnly: true,
         })
         .json(rest);
@@ -132,7 +132,7 @@ const google = async (req, res) => {
       // Return a response with the user details and access token
       return res
         .status(200)
-        .cookie("access_token", token, {
+        .cookie("accessToken", token, {
           httpOnly: true,
         })
         .json(rest);
