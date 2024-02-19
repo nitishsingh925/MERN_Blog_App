@@ -17,6 +17,7 @@ import {
   signoutSuccess,
 } from "../utils/redux/user/userSlice";
 import { API_URL } from "../utils/constants";
+import { Link } from "react-router-dom";
 const DashProfile = () => {
   const { currentUser, loading } = useSelector((state) => state.user);
   const filePickerRef = useRef();
@@ -214,6 +215,17 @@ const DashProfile = () => {
           Update
         </button>
       </form>
+      {currentUser?.isAdmin === true ? (
+        <Link
+          type="button"
+          to={"/create-post"}
+          className="w-full px-2 py-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-lg font-bold mt-5 text-center"
+        >
+          Create Post
+        </Link>
+      ) : (
+        ""
+      )}
       {message && (
         <div className="bg-red-300 text-red-600 rounded-lg font-semibold mt-4">
           {message}

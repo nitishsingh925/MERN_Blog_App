@@ -6,5 +6,10 @@ const PrivateRoute = () => {
   const currentUser = userState?.currentUser;
   return currentUser ? <Outlet /> : <Navigate to="sign-in" />;
 };
+const OnlyAdminPrivateRoute = () => {
+  const userState = useSelector((state) => state.user);
+  const currentUser = userState?.currentUser;
+  return currentUser.isAdmin ? <Outlet /> : <Navigate to="sign-in" />;
+};
 
-export default PrivateRoute;
+export { PrivateRoute, OnlyAdminPrivateRoute };
