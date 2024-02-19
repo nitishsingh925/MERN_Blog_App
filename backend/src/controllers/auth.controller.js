@@ -66,7 +66,10 @@ const signin = async (req, res) => {
     const { password: userPassword, ...userWithoutPassword } = user._doc;
 
     // Generating a JWT token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET
+    );
     const options = {
       httpOnly: true,
       secure: true,

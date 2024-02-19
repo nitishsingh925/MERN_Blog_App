@@ -142,7 +142,7 @@ const DashProfile = () => {
     <div className=" mx-auto">
       <div className="text-center">
         <h1 className="font-bold m-4 sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">
-          Profile
+          Profile {currentUser?.isAdmin === true ? "Admin" : ""}
         </h1>
       </div>
       <form onSubmit={handleSubmit}>
