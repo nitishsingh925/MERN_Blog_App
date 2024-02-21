@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import Dashbord from "./pages/Dashbord";
 import Projects from "./pages/Projects";
 import CreatePost from "./pages/CreatePost";
+import PostPage from "./pages/PostPage";
 import { PrivateRoute, OnlyAdminPrivateRoute } from "./components/PrivateRoute";
 const router = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
       {
         path: "/projects",
         element: <Projects />,
+      },
+      {
+        path: "/post/:postSlug",
+        element: <PostPage />,
       },
     ],
   },

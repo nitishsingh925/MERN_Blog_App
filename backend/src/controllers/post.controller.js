@@ -8,11 +8,14 @@ const createPost = async (req, res) => {
   if (!req.body.title || !req.body.content) {
     throw new ApiError(400, "Title and content are required");
   }
+  const date = Date.parse(new Date());
   const slug = req.body.title
     .split(" ")
     .join("-")
     .toLowerCase()
-    .replace(/[^a-zA-Z0-9-]/g, "");
+    .replace(/[^a-zA-Z0-9-]/g, "")
+    .concat(`-${date}`);
+
   const newPost = new Post({
     ...req.body,
     slug,

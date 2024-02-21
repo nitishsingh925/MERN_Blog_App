@@ -1,5 +1,4 @@
 import { useState } from "react";
-// import { getStorage, ref } from "firebase/database";
 import {
   getDownloadURL,
   getStorage,
@@ -7,6 +6,8 @@ import {
   ref,
 } from "firebase/storage";
 import { app } from "../utils/firebase";
+import { API_URL } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -15,6 +16,9 @@ const CreatePost = () => {
   const [imageUploadeProgress, setImageUploadeProgress] = useState(null);
   const [imageUploadeError, setImageUploadeError] = useState(null);
   const [formData, setFormData] = useState({});
+  const [publishError, setPublishError] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleUploadImage = async () => {
     try {
@@ -50,13 +54,38 @@ const CreatePost = () => {
       setImageUploadeProgress(null);
     }
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`${API_URL}/post/create`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (!res.ok) {
+        setPublishError(data.message);
+        return;
+      }
+      if (res.ok) {
+        setPublishError(null);
+        navigate(`/post/${data.message.slug}`);
+      }
+    } catch (error) {
+      setPublishError("Something went wrong !");
+    }
+  };
   return (
     <div className="dark:bg-neutral-700 dark:text-white">
       <div className="p-3 max-w-3xl mx-auto min-h-screen ">
         <h1 className="text-center text-3xl my-7 font-semibold">
           Create a Post
         </h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           {/* tiltle */}
           <div className="sm:flex gap-4 ">
             <input
@@ -64,17 +93,23 @@ const CreatePost = () => {
               placeholder="Title"
               id="title"
               required
+              onChange={(e) => {
+                setFormData({ ...formData, title: e.target.value });
+              }}
               className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500 dark:bg-neutral-700"
             />
             <select
               name="Select a category"
               id="category"
+              onChange={(e) => {
+                setFormData({ ...formData, category: e.target.value });
+              }}
               className="p-2 my-4 sm:my-0 w-full sm:w-auto border border-gray-300 rounded-md focus:outline-none focus:border-teal-500 dark:bg-neutral-700"
             >
               <option value="uncategorized">Select a category</option>
-              <option value="uncategorized">JavaScript</option>
-              <option value="uncategorized">ReactJS</option>
-              <option value="uncategorized">NextJS</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="ReactJS">ReactJS</option>
+              <option value="NextJS">NextJS</option>
             </select>
           </div>
           {/* image  */}
@@ -117,7 +152,14 @@ const CreatePost = () => {
             </div>
           )}
           {/* Quill */}
-          <ReactQuill theme="snow" placeholder="Write Your Post " />
+          <ReactQuill
+            theme="snow"
+            required
+            onChange={(value) => {
+              setFormData({ ...formData, content: value });
+            }}
+            placeholder="Write Your Post "
+          />
           {/* submit */}
           <button
             type="submit"
@@ -126,6 +168,12 @@ const CreatePost = () => {
             Pubilsh
           </button>
         </form>
+        {/* publish error */}
+        {publishError && (
+          <div className="w-full p-2 bg-red-300 text-red-600 rounded-lg my-4 ">
+            {publishError}
+          </div>
+        )}
       </div>
     </div>
   );
