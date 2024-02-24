@@ -73,4 +73,16 @@ const getPosts = async (req, res) => {
     throw new ApiError(500, error);
   }
 };
-export { createPost, getPosts };
+const deletePost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    if (post.userId !== req.params.userId && !req.user.isAdmin) {
+      throw new ApiError(401, "Unauthorized");
+    }
+    await Post.deleteOne({ _id: req.params.postId });
+    res.status(200).json(new ApiResponse(200, "Post deleted"));
+  } catch (error) {
+    throw new ApiError(500, error);
+  }
+};
+export { createPost, getPosts, deletePost };

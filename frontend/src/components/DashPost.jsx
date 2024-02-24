@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 const DashPost = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [showMore, setShowMore] = useState(true);
+  const [deleteAlert, setDeleteAlert] = useState(false);
+
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -49,6 +51,33 @@ const DashPost = () => {
     }
   };
 
+  const handleDeletePost = (postId) => async () => {
+    setDeleteAlert(true);
+    const userWantDelete = confirm(
+      "Are you sure you want to delete your account?"
+    );
+    if (userWantDelete === true) {
+      try {
+        const res = await fetch(
+          `${API_URL}/post/deletepost/${postId}/${currentUser._id}`,
+          {
+            method: "DELETE",
+            credentials: "include", // Include cookies
+          }
+        );
+        const data = await res.json();
+        console.log(data);
+        if (!res.ok) {
+          console.log(data.message);
+        } else {
+          setUserPosts((prev) => prev.filter((post) => post._id !== postId));
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  };
+
   return (
     <div className="container mx-auto p-4 overflow-x-auto">
       {currentUser.isAdmin && userPosts.length > 0 ? (
@@ -87,7 +116,10 @@ const DashPost = () => {
                     <Link to={`/post/${post.slug}`}>{post.title}</Link>
                   </td>
                   <td className="py-2 px-4">{post.category}</td>
-                  <td className="py-2 px-4  text-red-500 cursor-pointer hover:underline">
+                  <td
+                    onClick={handleDeletePost(post._id)}
+                    className="py-2 px-4  text-red-500 cursor-pointer hover:underline"
+                  >
                     Delete
                   </td>
                   <td className="py-2 px-4  text-teal-500 cursor-pointer hover:underline">
