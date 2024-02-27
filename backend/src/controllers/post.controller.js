@@ -85,4 +85,29 @@ const deletePost = async (req, res) => {
     throw new ApiError(500, error);
   }
 };
-export { createPost, getPosts, deletePost };
+const updatepost = async (req, res) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    throw new ApiError(
+      401,
+      "Unauthorized You are not allowed to update this post"
+    );
+  }
+  try {
+    const updatedpost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          category: req.body.category,
+          image: req.body.image,
+        },
+      },
+      { new: true }
+    );
+    res.status(201).json(new ApiResponse(201, updatedpost, "Post Updated "));
+  } catch (error) {
+    throw new ApiError(error);
+  }
+};
+export { createPost, getPosts, deletePost, updatepost };

@@ -9,6 +9,7 @@ import Projects from "./pages/Projects";
 import CreatePost from "./pages/CreatePost";
 import PostPage from "./pages/PostPage";
 import { PrivateRoute, OnlyAdminPrivateRoute } from "./components/PrivateRoute";
+import UpdatePost from "./pages/UpdatePost";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
           {
             path: "/create-post",
             element: <CreatePost />,
+          },
+          {
+            path: "/update-post/:postId",
+            element: <UpdatePost />,
           },
         ],
       },

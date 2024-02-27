@@ -123,7 +123,7 @@ const DashPost = () => {
                     Delete
                   </td>
                   <td className="py-2 px-4  text-teal-500 cursor-pointer hover:underline">
-                    Edit
+                    <Link to={`/update-post/${post._id}`}>Edit</Link>
                   </td>
                 </tr>
               ))}
