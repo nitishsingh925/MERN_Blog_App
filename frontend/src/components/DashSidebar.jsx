@@ -44,6 +44,14 @@ const DashSidebar = () => {
           </Link>
         )}
       </div>
+      <div>
+        {currentUser?.isAdmin && (
+          <Link to={"/dashbord?tab=users"} className={getLinkClass("users")}>
+            Users
+          </Link>
+        )}
+      </div>
+
       <div className="hover:text-red-400 cursor-pointer">
         <span
           onClick={handleSignout}
