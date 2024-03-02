@@ -21,3 +21,36 @@ progress::-webkit-progress-value { background: rgb(20 184 166); }
     height: 70vh;
 }
 
+.post-content h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: sans-serif;
+    margin: 1.5rem 0;
+  }
+  
+  .post-content h2 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    font-family: sans-serif;
+    margin: 1.4rem 0;
+  }
+  .post-content h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-family: sans-serif;
+    margin: 1.3rem 0;
+  }
+  
+  .post-content a {
+    color: rgb(73, 149, 199);
+    text-decoration: none;
+  }
+  
+  .post-content a:hover {
+    text-decoration: underline;
+  }
+  
+  .dark .post-content a {
+    color: red;
+  }
+

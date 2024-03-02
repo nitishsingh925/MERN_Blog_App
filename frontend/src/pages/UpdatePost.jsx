@@ -99,7 +99,7 @@ const UpdatePost = () => {
       }
       if (res.ok) {
         setPublishError(null);
-        navigate(`/post/${data.message.slug}`);
+        navigate(`/post/${data.data.slug}`);
       }
     } catch (error) {
       setPublishError("Something went wrong !");
