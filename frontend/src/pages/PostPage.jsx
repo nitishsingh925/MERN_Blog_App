@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { API_URL } from "../utils/constants";
+import CommentSection from "../components/CommentSection";
 
 const PostPage = () => {
   const [loading, setLoading] = useState(true);
@@ -23,7 +24,6 @@ const PostPage = () => {
           setLoading(false);
           setError(false);
         }
-        console.log(data.posts[0]);
       } catch (error) {
         setError(true);
         setLoading(false);
@@ -64,6 +64,7 @@ const PostPage = () => {
           className="post-content"
           dangerouslySetInnerHTML={{ __html: post.content }}
         ></div>
+        <CommentSection postId={post._id} />
       </div>
     </div>
   );
