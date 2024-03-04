@@ -115,5 +115,19 @@ const getUsers = async (req, res) => {
     throw new ApiError(500, "Internal Server Error");
   }
 };
+const getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      throw new ApiError(404, "User not found");
+    }
+    const { password, ...rest } = user._doc;
+    return res
+      .status(200)
+      .json(new ApiResponse(200, rest, "User fetched successfully"));
+  } catch (error) {
+    throw new ApiError(500, error, "Internal Server Error");
+  }
+};
 
-export { updateUser, deleteUser, signout, getUsers };
+export { updateUser, deleteUser, signout, getUsers, getUser };

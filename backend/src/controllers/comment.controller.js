@@ -20,4 +20,14 @@ const createComment = async (req, res) => {
     throw new ApiError(error);
   }
 };
-export { createComment };
+const getPostComments = async (req, res) => {
+  try {
+    const comments = await Comment.find({ postId: req.params.postId }).sort({
+      createdAt: -1,
+    });
+    res.json(new ApiResponse(200, comments, "Comments Retrieved"));
+  } catch (error) {
+    throw new ApiError(error);
+  }
+};
+export { createComment, getPostComments };
