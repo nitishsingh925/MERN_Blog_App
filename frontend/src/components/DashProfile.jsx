@@ -210,7 +210,7 @@ const DashProfile = () => {
         <button
           type="submit"
           disabled={loading || imageFileUploadProgress === 100}
-          className="w-full px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-lg font-bold"
+          className="w-full px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-pink-500 hover:to-indigo-500 text-white rounded-lg font-bold"
         >
           Update
         </button>
@@ -219,7 +219,7 @@ const DashProfile = () => {
         <Link
           type="button"
           to={"/create-post"}
-          className="w-full px-2 py-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white rounded-lg font-bold mt-5 text-center"
+          className="w-full px-2 py-1 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:from-indigo-500 hover:to-pink-500 text-white rounded-lg font-bold mt-5 text-center"
         >
           Create Post
         </Link>

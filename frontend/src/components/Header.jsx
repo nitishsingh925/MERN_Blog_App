@@ -117,7 +117,15 @@ const Header = () => {
           placeholder="Search..."
         />
         <button>
-          <img src="icons/search.svg" alt="search" className="w-6" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            id="Outline"
+            viewBox="0 0 24 24"
+            width="1.5rem"
+            height="1.5rem"
+          >
+            <path d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
+          </svg>
         </button>
       </div>
       <div className="flex">
@@ -134,7 +142,34 @@ const Header = () => {
               isMenuOpen ? "border-2 border-red-500 rounded-md" : ""
             }`}
           >
-            <img src="icons/menu-burger.svg" alt="menu" className="w-12 px-2" />
+            {/* <img src="icons/menu-burger.svg" alt="menu" className="w-12 px-2" /> */}
+
+            <svg
+              width="2rem"
+              height="2rem"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4 18L20 18"
+                stroke="#000000"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M4 12L20 12"
+                stroke="#000000"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+              <path
+                d="M4 6L20 6"
+                stroke="#000000"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
           </button>
           {isMenuOpen && (
             <div className="mt-2">
