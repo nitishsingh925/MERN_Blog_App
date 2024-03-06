@@ -143,14 +143,14 @@ const Footer = () => {
                 viewBox="0 0 48 48"
                 width="2rem"
                 height="2rem"
-                clip-rule="evenodd"
+                clipRule="evenodd"
                 baseProfile="basic"
               >
                 <path
                   fill="#212121"
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M38,42H10c-2.209,0-4-1.791-4-4V10c0-2.209,1.791-4,4-4h28	c2.209,0,4,1.791,4,4v28C42,40.209,40.209,42,38,42z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 />
                 <path
                   fill="#fff"

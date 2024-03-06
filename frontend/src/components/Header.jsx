@@ -33,7 +33,7 @@ const Header = () => {
   };
 
   const NavSignInProfile = (
-    <div className="self-center relative  group">
+    <div className="self-center relative group">
       <img
         src={currentUser?.profilePicture}
         alt="user"
@@ -47,7 +47,7 @@ const Header = () => {
           <span>{currentUser?.email}</span>
         </div>
         <Link
-          to={"/dashbord?tab=profile"}
+          to={"/dashboard?tab=profile"}
           className="block px-4 py-2 hover:text-red-400"
         >
           Your Profile
@@ -154,20 +154,20 @@ const Header = () => {
               <path
                 d="M4 18L20 18"
                 stroke="#000000"
-                stroke-width="2"
-                stroke-linecap="round"
+                strokeWidth="2"
+                strokeLinecap="round"
               />
               <path
                 d="M4 12L20 12"
                 stroke="#000000"
-                stroke-width="2"
-                stroke-linecap="round"
+                strokeWidth="2"
+                strokeLinecap="round"
               />
               <path
                 d="M4 6L20 6"
                 stroke="#000000"
-                stroke-width="2"
-                stroke-linecap="round"
+                strokeWidth="2"
+                strokeLinecap="round"
               />
             </svg>
           </button>
