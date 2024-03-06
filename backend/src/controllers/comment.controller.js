@@ -50,4 +50,24 @@ const likeComment = async (req, res) => {
     throw new ApiError(error);
   }
 };
-export { createComment, getPostComments, likeComment };
+const editComment = async (req, res) => {
+  try {
+    const comment = await Comment.findById(req.params.commentId);
+    if (!comment) throw new ApiError(404, "Comment not found");
+    if (comment.userId !== req.user.id && !req.user.isAdmin)
+      throw new ApiError(403, "Unauthorized");
+    const editedComment = await Comment.findByIdAndUpdate(
+      req.params.commentId,
+      {
+        content: req.body.content,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(201).json(new ApiResponse(201, editedComment, "Comment edit"));
+  } catch (error) {
+    throw new ApiError(404, error);
+  }
+};
+export { createComment, getPostComments, likeComment, editComment };
