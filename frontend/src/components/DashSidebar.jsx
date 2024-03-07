@@ -33,20 +33,20 @@ const DashSidebar = () => {
   return (
     <div className="md:w-1/6 px-4 flex-col dark:bg-neutral-700 dark:text-white md:min-h-screen border-b md:border-b-0 md:border-e border-teal-500  ">
       <div>
-        <Link to={"/dashbord?tab=profile"} className={getLinkClass("profile")}>
+        <Link to={"/dashboard?tab=profile"} className={getLinkClass("profile")}>
           Profile
         </Link>
       </div>
       <div>
         {currentUser?.isAdmin && (
-          <Link to={"/dashbord?tab=post"} className={getLinkClass("post")}>
+          <Link to={"/dashboard?tab=post"} className={getLinkClass("post")}>
             Posts
           </Link>
         )}
       </div>
       <div>
         {currentUser?.isAdmin && (
-          <Link to={"/dashbord?tab=users"} className={getLinkClass("users")}>
+          <Link to={"/dashboard?tab=users"} className={getLinkClass("users")}>
             Users
           </Link>
         )}

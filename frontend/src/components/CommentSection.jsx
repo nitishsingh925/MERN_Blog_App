@@ -8,6 +8,7 @@ const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState(null);
   const [comments, setComments] = useState([]);
+  const [deleteAlert, setDeleteAlert] = useState(false);
 
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
@@ -86,6 +87,32 @@ const CommentSection = ({ postId }) => {
       )
     );
   };
+  const handleDelete = async (commentId) => {
+    try {
+      if (!currentUser) {
+        navigate("/sign-in");
+        return;
+      }
+      setDeleteAlert(true);
+      const commentWantDelete = confirm(
+        "Are you sure you want to delete your Comment?"
+      );
+      if (commentWantDelete === true) {
+        const res = await fetch(
+          `${API_URL}/comment/deleteComment/${commentId}`,
+          {
+            method: "DELETE",
+            credentials: "include",
+          }
+        );
+        if (res.ok) {
+          setComments(comments.filter((comment) => comment._id !== commentId));
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="w-full">
       {currentUser ? (
@@ -97,7 +124,7 @@ const CommentSection = ({ postId }) => {
             className="h-12 w-12 rounded-full object-cover"
           />
           <Link
-            to={"/dashbord?tab=profile"}
+            to={"/dashboard?tab=profile"}
             className="text-teal-500 hover:underline"
           >
             @{currentUser.username}
@@ -159,6 +186,7 @@ const CommentSection = ({ postId }) => {
                 comment={data}
                 onLike={handleLike}
                 onEdit={handleEdit}
+                onDelete={handleDelete}
               />
             ))}
           </div>

@@ -5,7 +5,7 @@ import DashSidebar from "../components/DashSidebar";
 import DashPost from "../components/DashPost";
 import DashUsers from "../components/DashUsers";
 
-const Dashbord = () => {
+const Dashboard = () => {
   const { search } = useLocation();
   const [tab, setTab] = useState("");
   useEffect(() => {
@@ -26,4 +26,4 @@ const Dashbord = () => {
   );
 };
 
-export default Dashbord;
+export default Dashboard;

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createComment,
+  deleteComment,
   editComment,
   getPostComments,
   likeComment,
@@ -12,4 +13,5 @@ router.post("/create", verifyJWT, createComment);
 router.get("/getPostComments/:postId", getPostComments);
 router.put("/likeComment/:commentId", verifyJWT, likeComment);
 router.put("/editComment/:commentId", verifyJWT, editComment);
+router.delete("/deleteComment/:commentId", verifyJWT, deleteComment);
 export default router;
