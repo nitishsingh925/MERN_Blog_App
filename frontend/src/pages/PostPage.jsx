@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { API_URL } from "../utils/constants";
 import CommentSection from "../components/CommentSection";
+import PostCard from "../components/PostCard";
 
 const PostPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [post, setPost] = useState(null);
+  const [recentPost, setRecentPost] = useState([]);
   const { postSlug } = useParams();
   useEffect(() => {
     const fetchPost = async () => {
@@ -31,13 +33,31 @@ const PostPage = () => {
     };
     fetchPost();
   }, [postSlug]);
+  // recent 3 post get
+
+  useEffect(() => {
+    const fetch3RecentPost = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`${API_URL}/post/getposts?limit=3`);
+        const { data } = await res.json();
+        if (res.ok) {
+          setRecentPost(data.posts);
+          setLoading(false);
+          setError(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetch3RecentPost();
+  }, []);
+
   if (loading) return <div>Loding..............</div>;
   return (
-    <div className="dark:bg-neutral-700 dark:text-white p-4">
-      <div className="flex flex-col max-w-6xl  mx-auto items-center">
-        <h1 className=" text-2xl md:text-3xl  p-3 font-serif max-w-2xl">
-          {post.title}
-        </h1>
+    <div className="dark:bg-neutral-700 dark:text-white w-full p-4">
+      <div className="flex flex-col  ">
+        <h1 className=" text-2xl md:text-3xl  p-3 font-serif ">{post.title}</h1>
         <Link to={`/search?category=${post.category}`}>
           <button className="text-lg font-semibold p-5 hover:text-red-400">
             {post.category}
@@ -65,6 +85,14 @@ const PostPage = () => {
           dangerouslySetInnerHTML={{ __html: post.content }}
         ></div>
         <CommentSection postId={post._id} />
+      </div>
+      <div className="text-center">
+        <h1 className="text-3xl uppercase m-5">Recent articles</h1>
+        <div className="flex flex-wrap gap-4 justify-center">
+          {recentPost?.map((post) => (
+            <div key={post.slug}>{<PostCard post={post} />}</div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -112,7 +112,7 @@ const DashPost = () => {
                       />
                     </Link>
                   </td>
-                  <td className="py-2 px-4">
+                  <td className="py-1 px-4  line-clamp-2 max-w-96">
                     <Link to={`/post/${post.slug}`}>{post.title}</Link>
                   </td>
                   <td className="py-2 px-4">{post.category}</td>
