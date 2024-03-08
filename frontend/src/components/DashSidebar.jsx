@@ -33,6 +33,16 @@ const DashSidebar = () => {
   return (
     <div className="md:w-1/6 px-4 flex-col dark:bg-neutral-700 dark:text-white md:min-h-screen border-b md:border-b-0 md:border-e border-teal-500  ">
       <div>
+        {currentUser?.isAdmin && (
+          <Link
+            to={"/dashboard?tab=dashboard"}
+            className={getLinkClass("dashboard")}
+          >
+            Dashboard
+          </Link>
+        )}
+      </div>
+      <div>
         <Link to={"/dashboard?tab=profile"} className={getLinkClass("profile")}>
           Profile
         </Link>

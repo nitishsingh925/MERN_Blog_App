@@ -102,13 +102,13 @@ const getComments = async (req, res) => {
       now.getMonth() - 1,
       now.getDate()
     );
-    const lastMontComments = await Comment.countDocuments({
+    const lastMonthComments = await Comment.countDocuments({
       createdAt: { $gte: oneMonthAgo },
     });
     res
       .status(200)
       .json(
-        new ApiResponse(200, { comments, lastMontComments, totalComments })
+        new ApiResponse(200, { comments, lastMonthComments, totalComments })
       );
   } catch (error) {
     throw new ApiError(404, error);
