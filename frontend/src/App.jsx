@@ -10,6 +10,7 @@ import CreatePost from "./pages/CreatePost";
 import PostPage from "./pages/PostPage";
 import { PrivateRoute, OnlyAdminPrivateRoute } from "./components/PrivateRoute";
 import UpdatePost from "./pages/UpdatePost";
+import Search from "./pages/Search";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/sign-up",
         element: <SignUp />,
+      },
+      {
+        path: "/search",
+        element: <Search />,
       },
       {
         element: <PrivateRoute />,

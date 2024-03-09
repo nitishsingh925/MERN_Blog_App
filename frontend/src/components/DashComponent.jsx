@@ -159,7 +159,7 @@ const DashComponent = () => {
         <div className=" shadow-neutral-800 shadow-lg rounded-xl p-4">
           <div className="flex justify-between">
             <h1>Recent Users</h1>
-            <Link to={"http://localhost:5173/dashboard?tab=users"}>
+            <Link to={"/dashboard?tab=users"}>
               <button
                 type="button"
                 className="font-semibold px-2 py-1 rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-pink-500 hover:to-indigo-500 hover:opacity-70"
@@ -197,7 +197,7 @@ const DashComponent = () => {
         <div className=" shadow-neutral-800 shadow-lg rounded-xl p-4 ">
           <div className="flex justify-between">
             <h1>Recent Comments</h1>
-            <Link to={"http://localhost:5173/dashboard?tab=comments"}>
+            <Link to={"/dashboard?tab=comments"}>
               <button
                 type="button"
                 className="font-semibold px-2 py-1 rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-pink-500 hover:to-indigo-500 hover:opacity-70"
@@ -236,7 +236,7 @@ const DashComponent = () => {
         <div className=" shadow-neutral-800 shadow-lg rounded-xl p-4">
           <div className="flex justify-between">
             <h1>Recent Post</h1>
-            <Link to={"http://localhost:5173/dashboard?tab=post"}>
+            <Link to={"/dashboard?tab=post"}>
               <button
                 type="button"
                 className="font-semibold px-2 py-1 rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-pink-500 hover:to-indigo-500 hover:opacity-70"
