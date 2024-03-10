@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import useTheme from "../hooks/useThems";
 import { useDispatch, useSelector } from "react-redux";
 import { signoutSuccess } from "../utils/redux/user/userSlice";
@@ -7,13 +7,33 @@ import { API_URL } from "../utils/constants";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const { currentUser } = useSelector((state) => state.user);
+
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const { mode, toggleThemeHandler } = useTheme();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
   };
 
   const handleSignout = async () => {
@@ -110,13 +130,18 @@ const Header = () => {
       </Link>
 
       {/* search */}
-      <div className=" md:flex hidden border border-slate-500 dark:border-white rounded-lg p-2">
+      <form
+        onSubmit={handleSubmit}
+        className=" md:flex hidden border border-slate-500 dark:border-white rounded-lg p-2"
+      >
         <input
           type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="outline-none w-full sm:w-40 md:w-48 lg:w-56 xl:w-64 dark:bg-neutral-700"
           placeholder="Search..."
         />
-        <button>
+        <button type="submit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             id="Outline"
@@ -127,7 +152,7 @@ const Header = () => {
             <path d="M23.707,22.293l-5.969-5.969a10.016,10.016,0,1,0-1.414,1.414l5.969,5.969a1,1,0,0,0,1.414-1.414ZM10,18a8,8,0,1,1,8-8A8.009,8.009,0,0,1,10,18Z" />
           </svg>
         </button>
-      </div>
+      </form>
       <div className="flex">
         {/* for  big  */}
         <div className="md:flex hidden">{NavItems}</div>
