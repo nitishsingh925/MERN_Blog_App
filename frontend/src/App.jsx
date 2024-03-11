@@ -5,7 +5,7 @@ import About from "./pages/About";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
-import Projects from "./pages/Projects";
+import Blog from "./pages/Blog";
 import CreatePost from "./pages/CreatePost";
 import PostPage from "./pages/PostPage";
 import { PrivateRoute, OnlyAdminPrivateRoute } from "./components/PrivateRoute";
@@ -59,8 +59,8 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "/projects",
-        element: <Projects />,
+        path: "/blog",
+        element: <Blog />,
       },
       {
         path: "/post/:postSlug",

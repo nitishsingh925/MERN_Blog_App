@@ -103,9 +103,9 @@ const Header = () => {
           About
         </div>
       </NavLink>
-      <NavLink to="/projects">
+      <NavLink to="/blog">
         <div className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl p-2 hover:text-red-400">
-          Projects
+          Blog
         </div>
       </NavLink>
       <div className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">
