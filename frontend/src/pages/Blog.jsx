@@ -36,7 +36,7 @@ const Blog = () => {
 
       if (res.ok) {
         setPosts((prev) => [...prev, ...data.posts]);
-        setShowMore(data.posts.length < 12);
+        setShowMore(data.posts.length >= 12);
       }
     } catch (error) {
       console.log(error.message);

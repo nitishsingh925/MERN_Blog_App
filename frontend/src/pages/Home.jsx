@@ -23,7 +23,7 @@ const Home = () => {
           web development, software engineering, and programming languages.
         </p>
         <Link
-          to="/search"
+          to="/blog"
           className="text-xs sm:text-sm font-bold text-teal-500 hover:underline"
         >
           View All Posts
@@ -40,7 +40,7 @@ const Home = () => {
               ))}
             </div>
             <Link
-              to={"/search"}
+              to={"/blog"}
               className="text-lg text-teal-500 hover:underline text-center"
             >
               View all posts
