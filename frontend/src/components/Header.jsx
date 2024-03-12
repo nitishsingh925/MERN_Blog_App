@@ -94,18 +94,23 @@ const Header = () => {
   const NavItems = (
     <>
       <NavLink to="/">
-        <div className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl p-2 hover:text-red-400">
-          Home
-        </div>
-      </NavLink>
-      <NavLink to="/about">
-        <div className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl p-2 hover:text-red-400">
-          About
+        <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl p-2 hover:text-red-400">
+          HOME
         </div>
       </NavLink>
       <NavLink to="/blog">
-        <div className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl p-2 hover:text-red-400">
-          Blog
+        <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl p-2 hover:text-red-400">
+          BLOG
+        </div>
+      </NavLink>
+      <NavLink to="/about">
+        <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl p-2 hover:text-red-400">
+          ABOUT US
+        </div>
+      </NavLink>
+      <NavLink to="/contact">
+        <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl p-2 hover:text-red-400">
+          CONTACT US
         </div>
       </NavLink>
       <div className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl">

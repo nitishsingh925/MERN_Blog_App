@@ -71,6 +71,16 @@ const DashSidebar = () => {
           </Link>
         )}
       </div>
+      <div>
+        {currentUser?.isAdmin && (
+          <Link
+            to={"/dashboard?tab=contact"}
+            className={getLinkClass("contact")}
+          >
+            Contact
+          </Link>
+        )}
+      </div>
 
       <div className="hover:text-red-400 cursor-pointer">
         <span

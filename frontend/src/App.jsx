@@ -11,6 +11,7 @@ import PostPage from "./pages/PostPage";
 import { PrivateRoute, OnlyAdminPrivateRoute } from "./components/PrivateRoute";
 import UpdatePost from "./pages/UpdatePost";
 import Search from "./pages/Search";
+import Contact from "./pages/Contact";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,6 +38,18 @@ const router = createBrowserRouter([
         element: <Search />,
       },
       {
+        path: "/blog",
+        element: <Blog />,
+      },
+      {
+        path: "/post/:postSlug",
+        element: <PostPage />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
         element: <PrivateRoute />,
         children: [
           {
@@ -57,14 +70,6 @@ const router = createBrowserRouter([
             element: <UpdatePost />,
           },
         ],
-      },
-      {
-        path: "/blog",
-        element: <Blog />,
-      },
-      {
-        path: "/post/:postSlug",
-        element: <PostPage />,
       },
     ],
   },
