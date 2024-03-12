@@ -44,7 +44,7 @@ const OAuth = () => {
           <span className=" mx-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
               viewBox="0 0 48 48"
               width="2rem"
               height="2rem"
