@@ -31,13 +31,16 @@ const Signin = () => {
     if (!formData.username || !formData.password) {
       return dispatch(signInFailure("Please fill all the fields"));
     }
+    const formDataModify = formData.username.includes("@")
+      ? { email: formData.username, password: formData.password }
+      : { username: formData.username, password: formData.password };
     try {
       dispatch(signInStart());
       const res = await fetch(`${API_URL}/auth/signin`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // Include cookies
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formDataModify),
       });
       const data = await res.json();
       if (data.success === false) {
