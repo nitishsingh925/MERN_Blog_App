@@ -7,6 +7,7 @@ const DashComponent = () => {
   const [users, setUsers] = useState([]);
   const [comments, setComments] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalPosts, setTotalPosts] = useState(0);
   const [totalComments, setTotalComments] = useState(0);
@@ -60,11 +61,28 @@ const DashComponent = () => {
         console.log(error);
       }
     };
+    const fetchCotact = async () => {
+      try {
+        const res = await fetch(`${API_URL}/contact/getcontacts?limit=5`, {
+          credentials: "include",
+        });
+        if (res.ok) {
+          const { data } = await res.json();
+          console.log(data);
+          setContacts(data);
+          // setTotalComments(data.totalComments);
+          // setLastMonthComments(data.lastMonthComments);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
     if (currentUser.isAdmin) {
       fetchUsers();
       fetchPosts();
       fetchComments();
+      fetchCotact();
     }
   }, [currentUser]);
 
@@ -266,6 +284,43 @@ const DashComponent = () => {
                       </th>
                       <th className="px-4 text-start line-clamp-2">
                         {post.title}
+                      </th>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className=" shadow-neutral-800 shadow-lg rounded-xl p-4">
+          <div className="flex justify-between">
+            <h1>Recent Contacts</h1>
+            <Link to={"/dashboard?tab=contact"}>
+              <button
+                type="button"
+                className="font-semibold px-2 py-1 rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-pink-500 hover:to-indigo-500 hover:opacity-70"
+              >
+                See all
+              </button>
+            </Link>
+          </div>
+          <div className=" mt-4">
+            <table className="w-full rounded-md overflow-hidden">
+              <thead className="bg-gray-200 dark:bg-neutral-800">
+                <tr>
+                  <th className="text-start">User Name</th>
+                  <th className="text-start">Message</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users &&
+                  contacts.map((contact) => (
+                    <tr
+                      key={contact.createdAt}
+                      className="border-b border-teal-500"
+                    >
+                      <th className="text-start">{contact.userName}</th>
+                      <th className="px-4 text-start line-clamp-2">
+                        {contact.message}
                       </th>
                     </tr>
                   ))}

@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 const DashContact = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [message, setMessage] = useState([]);
+  const [showMore, setShowMore] = useState(true);
+
   useEffect(() => {
     const fetchContacts = async () => {
       try {
@@ -24,6 +26,29 @@ const DashContact = () => {
     fetchContacts();
   }, []);
 
+  const handleShowMore = async () => {
+    const startIndex = message.length;
+    console.log(startIndex);
+    try {
+      const res = await fetch(
+        `${API_URL}/contact/getcontacts?startIndex=${startIndex}`,
+        {
+          credentials: "include",
+        }
+      );
+      const { data } = await res.json();
+      console.log(data);
+      if (res.ok) {
+        setMessage((prev) => [...prev, ...data]);
+        if (data.length < 12) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className="container mx-auto p-4 overflow-x-auto">
       {currentUser.isAdmin && message.length > 0 ? (
@@ -32,9 +57,7 @@ const DashContact = () => {
             <thead>
               <tr className="bg-gray-200 dark:bg-neutral-800">
                 <th className="py-2 px-4 text-left">Date</th>
-                <th className="py-2 px-4 text-left">User Full name </th>
                 <th className="py-2 px-4 text-left">Username</th>
-                <th className="py-2 px-4 text-left">User Email</th>
                 <th className="py-2 px-4 text-left">Message</th>
               </tr>
             </thead>
@@ -48,11 +71,7 @@ const DashContact = () => {
                       day: "numeric",
                     })}
                   </td>
-                  <td className="py-1 px-4 line-clamp-1">
-                    {data.userFullName}
-                  </td>
                   <td className="py-1 px-4">{data.userName}</td>
-                  <td className="py-1 px-4">{data.userEmail}</td>
                   <td className="py-1 px-4">{data.message}</td>
                 </tr>
               ))}
@@ -61,6 +80,16 @@ const DashContact = () => {
         </>
       ) : (
         <p className="text-center mt-4">You have no message yet!</p>
+      )}
+      {showMore && (
+        <div className="w-full text-center my-5 ">
+          <button
+            className="text-teal-500 hover:border-b-4  border-teal-500 rounded-lg"
+            onClick={handleShowMore}
+          >
+            Show more
+          </button>
+        </div>
       )}
     </div>
   );
