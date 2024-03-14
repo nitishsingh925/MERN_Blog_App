@@ -1,17 +1,21 @@
+import { lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AppLayout from "./AppLayout";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import Dashboard from "./pages/Dashboard";
-import Blog from "./pages/Blog";
-import CreatePost from "./pages/CreatePost";
-import PostPage from "./pages/PostPage";
 import { PrivateRoute, OnlyAdminPrivateRoute } from "./components/PrivateRoute";
-import UpdatePost from "./pages/UpdatePost";
-import Search from "./pages/Search";
-import Contact from "./pages/Contact";
+import AppLayout from "./AppLayout";
+
+// lazy Loading
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const SignIn = lazy(() => import("./pages/SignIn"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Blog = lazy(() => import("./pages/Blog"));
+const CreatePost = lazy(() => import("./pages/CreatePost"));
+const PostPage = lazy(() => import("./pages/PostPage"));
+const UpdatePost = lazy(() => import("./pages/UpdatePost"));
+const Search = lazy(() => import("./pages/Search"));
+const Contact = lazy(() => import("./pages/Contact"));
+
 const router = createBrowserRouter([
   {
     path: "/",
