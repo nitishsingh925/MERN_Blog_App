@@ -6,7 +6,7 @@ import {
   uploadBytesResumable,
   ref,
 } from "firebase/storage";
-import { app } from "../utils/firebase";
+import { app } from "../../utils/firebase";
 import {
   updateStart,
   updateSuccess,
@@ -15,8 +15,8 @@ import {
   deleteUserFailure,
   deleteUserSuccess,
   signoutSuccess,
-} from "../utils/redux/user/userSlice";
-import { API_URL } from "../utils/constants";
+} from "../../utils/redux/user/userSlice";
+import { API_URL } from "../../utils/constants";
 import { Link } from "react-router-dom";
 const DashProfile = () => {
   const { currentUser, loading } = useSelector((state) => state.user);

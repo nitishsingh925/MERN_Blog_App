@@ -1,48 +1,46 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { API_URL } from "../utils/constants";
-import { Link } from "react-router-dom";
+import { API_URL } from "../../utils/constants";
 
-const DashPost = () => {
-  const [userPosts, setUserPosts] = useState([]);
+const DashUsers = () => {
+  const [users, setUsers] = useState([]);
   const [showMore, setShowMore] = useState(true);
   const [deleteAlert, setDeleteAlert] = useState(false);
 
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchUsers = async () => {
       try {
-        const res = await fetch(
-          `${API_URL}/post/getposts?userId=${currentUser._id}`
-        );
+        const res = await fetch(`${API_URL}/user/getusers`, {
+          credentials: "include",
+        });
         const { data } = await res.json();
         if (res.ok) {
-          if (data.posts.length < 12) {
+          if (data.users.length < 12) {
             setShowMore(false);
           }
-          setUserPosts(data.posts);
+          setUsers(data.users);
         }
       } catch (error) {
         console.log(error);
       }
     };
     if (currentUser.isAdmin) {
-      fetchPosts();
+      fetchUsers();
     }
   }, [currentUser._id]);
 
   const handleShowMore = async () => {
-    const startIndex = userPosts.length;
-    console.log(startIndex);
+    const startIndex = users.length;
     try {
       const res = await fetch(
-        `${API_URL}/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
+        `${API_URL}/user/getusers?startIndex=${startIndex}`
       );
       const { data } = await res.json();
       if (res.ok) {
-        setUserPosts((prev) => [...prev, ...data.posts]);
-        if (data.posts.length < 12) {
+        setUsers((prev) => [...prev, ...data.users]);
+        if (data.users.length < 12) {
           setShowMore(false);
         }
       }
@@ -51,26 +49,22 @@ const DashPost = () => {
     }
   };
 
-  const handleDeletePost = (postId) => async () => {
+  const handleDeleteUser = (userId) => async () => {
     setDeleteAlert(true);
     const userWantDelete = confirm(
       "Are you sure you want to delete your account?"
     );
     if (userWantDelete === true) {
       try {
-        const res = await fetch(
-          `${API_URL}/post/deletepost/${postId}/${currentUser._id}`,
-          {
-            method: "DELETE",
-            credentials: "include", // Include cookies
-          }
-        );
+        const res = await fetch(`${API_URL}/user/delete/${userId}`, {
+          method: "DELETE",
+          credentials: "include",
+        });
         const data = await res.json();
-        console.log(data);
         if (!res.ok) {
           console.log(data.message);
         } else {
-          setUserPosts((prev) => prev.filter((post) => post._id !== postId));
+          setUsers((prev) => prev.filter((user) => user._id !== userId));
         }
       } catch (error) {
         console.log(error.message);
@@ -80,50 +74,44 @@ const DashPost = () => {
 
   return (
     <div className="container mx-auto p-4 overflow-x-auto">
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+      {currentUser.isAdmin && users.length > 0 ? (
         <>
           <table className="min-w-full shadow-md rounded-md overflow-hidden">
             <thead>
               <tr className="bg-gray-200 dark:bg-neutral-800">
-                <th className="py-2 px-4 text-left">Date Update</th>
-                <th className="py-2 px-4 text-left">Post image</th>
-                <th className="py-2 px-4 text-left">Post title</th>
-                <th className="py-2 px-4 text-left">Category</th>
+                <th className="py-2 px-4 text-left">Created Date</th>
+                <th className="py-2 px-4 text-left">User Image</th>
+                <th className="py-2 px-4 text-left">User Name</th>
+                <th className="py-2 px-4 text-left">User Email</th>
+                <th className="py-2 px-4 text-left">Admin</th>
                 <th className="py-2 px-4 text-left">Delete</th>
-                <th className="py-2 px-4 text-left">Edit</th>
               </tr>
             </thead>
             <tbody>
-              {userPosts.map((post) => (
-                <tr key={post._id} className="border-t border-teal-500">
+              {users.map((user) => (
+                <tr key={user._id} className="border-t border-teal-500">
                   <td className="py-2 px-4">
-                    {new Date(post.updatedAt).toLocaleString("en-IN", {
+                    {new Date(user.createdAt).toLocaleString("en-IN", {
                       year: "2-digit",
                       month: "long",
                       day: "numeric",
                     })}
                   </td>
                   <td className="py-2 px-4">
-                    <Link to={`/post/${post.slug}`}>
-                      <img
-                        src={post.image}
-                        alt={post.title}
-                        className="w-20 h-10 object-cover rounded-md"
-                      />
-                    </Link>
+                    <img
+                      src={user.profilePicture}
+                      alt={user.username}
+                      className="w-20 h-10 object-cover rounded-md"
+                    />
                   </td>
-                  <td className="py-1 px-4  line-clamp-2 max-w-96">
-                    <Link to={`/post/${post.slug}`}>{post.title}</Link>
-                  </td>
-                  <td className="py-2 px-4">{post.category}</td>
+                  <td className="py-2 px-4">{user.username}</td>
+                  <td className="py-2 px-4">{user.email}</td>
+                  <td className="py-2 px-4">{user.isAdmin ? "✔️" : "❌"}</td>
                   <td
-                    onClick={handleDeletePost(post._id)}
+                    onClick={handleDeleteUser(user._id)}
                     className="py-2 px-4  text-red-500 cursor-pointer hover:underline"
                   >
                     Delete
-                  </td>
-                  <td className="py-2 px-4  text-teal-500 cursor-pointer hover:underline">
-                    <Link to={`/update-post/${post._id}`}>Edit</Link>
                   </td>
                 </tr>
               ))}
@@ -147,4 +135,4 @@ const DashPost = () => {
   );
 };
 
-export default DashPost;
+export default DashUsers;

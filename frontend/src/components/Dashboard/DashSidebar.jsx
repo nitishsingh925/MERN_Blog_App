@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { API_URL } from "../utils/constants";
-import { signoutSuccess } from "../utils/redux/user/userSlice";
+import { API_URL } from "../../utils/constants";
+import { signoutSuccess } from "../../utils/redux/user/userSlice";
 
 const DashSidebar = () => {
   const dispatch = useDispatch();

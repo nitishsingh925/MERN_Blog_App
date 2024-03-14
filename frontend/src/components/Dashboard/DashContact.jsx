@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { API_URL } from "../utils/constants";
+import { API_URL } from "../../utils/constants";
 import { useSelector } from "react-redux";
 
 const DashContact = () => {

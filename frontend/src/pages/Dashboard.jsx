@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import DashProfile from "../components/DashProfile";
-import DashSidebar from "../components/DashSidebar";
-import DashPost from "../components/DashPost";
-import DashUsers from "../components/DashUsers";
-import DashComments from "../components/DashComments";
-import DashComponent from "../components/DashComponent";
-import DashContact from "../components/DashContact";
+import DashProfile from "../components/Dashboard/DashProfile";
+import DashSidebar from "../components/Dashboard/DashSidebar";
+import DashPost from "../components/Dashboard/DashPost";
+import DashUsers from "../components/Dashboard/DashUsers";
+import DashComments from "../components/Dashboard/DashComments";
+import DashComponent from "../components/Dashboard/DashComponent";
+import DashContact from "../components/Dashboard/DashContact";
 
 const Dashboard = () => {
   const { search } = useLocation();

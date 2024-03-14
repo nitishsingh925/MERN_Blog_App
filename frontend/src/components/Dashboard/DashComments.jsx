@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { API_URL } from "../utils/constants";
+import { API_URL } from "../../utils/constants";
 
 const DashComments = () => {
   const [comments, setComments] = useState([]);
