@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { API_URL } from "../utils/constants";
 import PostCard from "../components/PostCard";
+import Shimmer from "../components/Shimmer";
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -46,7 +47,9 @@ const Blog = () => {
   return (
     <div className="dark:bg-neutral-700 dark:text-gray-200">
       {/* for Loading  */}
-      {loading && <p className="text-xl text-gray-500">Loading...</p>}
+      {loading && (
+        <Shimmer className="flex flex-wrap justify-around gap-4 p-4" />
+      )}
 
       {/* for No Posts */}
       {posts.length === 0 && (

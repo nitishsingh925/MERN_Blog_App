@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 import { API_URL } from "../utils/constants";
-import PostCard from "../components/PostCard";
+import Shimmer from "../components/Shimmer";
+
+const PostCard = lazy(() => import("../components/PostCard"));
 const Home = () => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
@@ -29,25 +31,28 @@ const Home = () => {
           View All Posts
         </Link>
       </div>
-
-      <div className="p-3 flex flex-col gap-8">
-        {posts && posts.length > 0 && (
-          <div className="flex flex-col gap-6">
-            <h2 className="text-2xl font-semibold text-center">Recent Posts</h2>
-            <div className="flex flex-wrap gap-4 justify-around">
-              {posts.map((post) => (
-                <PostCard key={post._id} post={post} />
-              ))}
+      <Suspense fallback={<Shimmer />}>
+        <div className="p-3 flex flex-col gap-8">
+          {posts && posts.length > 0 && (
+            <div className="flex flex-col gap-6">
+              <h2 className="text-2xl font-semibold text-center">
+                Recent Posts
+              </h2>
+              <div className="flex flex-wrap gap-4 justify-around">
+                {posts.map((post) => (
+                  <PostCard key={post._id} post={post} />
+                ))}
+              </div>
+              <Link
+                to={"/blog"}
+                className="text-lg text-teal-500 hover:underline text-center"
+              >
+                View all posts
+              </Link>
             </div>
-            <Link
-              to={"/blog"}
-              className="text-lg text-teal-500 hover:underline text-center"
-            >
-              View all posts
-            </Link>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </Suspense>
     </div>
   );
 };
