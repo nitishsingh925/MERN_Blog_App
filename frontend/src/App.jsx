@@ -5,6 +5,7 @@ import AppLayout from "./AppLayout";
 
 // lazy Loading
 const Home = lazy(() => import("./pages/Home"));
+const Error = lazy(() => import("./pages/Error"));
 const About = lazy(() => import("./pages/About"));
 const SignIn = lazy(() => import("./pages/SignIn"));
 const SignUp = lazy(() => import("./pages/SignUp"));
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+      {
+        path: "*",
+        element: <Error />,
+      },
+
       {
         path: "/about",
         element: <About />,
