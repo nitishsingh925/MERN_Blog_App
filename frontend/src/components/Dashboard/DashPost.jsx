@@ -13,9 +13,7 @@ const DashPost = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(
-          `${API_URL}/post/getposts?userId=${currentUser._id}`
-        );
+        const res = await fetch(`${API_URL}/post/getposts`);
         const { data } = await res.json();
         if (res.ok) {
           if (data.posts.length < 12) {
