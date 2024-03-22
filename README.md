@@ -1,8 +1,12 @@
 ## Getting Started
 
-First, run the development server:
-both folder backend & frontend  with .env.sample to .env and use own api key frontend
 
+ => .env.sample to .env
+<br/>
+=>  use own api key frontend
+<br/>
+=>run the development server: both folder backend & frontend
+<br/>
 
 ```bash
 npm run dev
