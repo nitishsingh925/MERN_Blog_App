@@ -6,6 +6,7 @@ import commentRouter from "./routes/comment.route.js";
 import contactRouter from "./routes/contact.route.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { CORS_ORIGIN } from "./utils/constants.js";
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: CORS_ORIGIN,
     credentials: true,
   })
 );

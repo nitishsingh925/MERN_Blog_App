@@ -1,6 +1,7 @@
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../utils/constants.js";
 
 export const verifyJWT = asyncHandler(async (req, res, next) => {
   try {
@@ -8,7 +9,7 @@ export const verifyJWT = asyncHandler(async (req, res, next) => {
     if (!token) {
       throw new ApiError(401, "Unauthorized");
     }
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    jwt.verify(token, JWT_SECRET, (err, user) => {
       if (err) {
         throw new ApiError(401, "Unauthorized");
       }

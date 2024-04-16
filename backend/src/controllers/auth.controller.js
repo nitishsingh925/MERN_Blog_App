@@ -2,6 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../utils/constants.js";
 
 const signup = async (req, res) => {
   const { email, username, password } = req.body;
@@ -66,10 +67,7 @@ const signin = async (req, res) => {
     const { password: userPassword, ...userWithoutPassword } = user._doc;
 
     // Generating a JWT token
-    const token = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET
-    );
+    const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, JWT_SECRET);
     const options = {
       httpOnly: true,
       secure: true,
@@ -101,7 +99,7 @@ const google = async (req, res) => {
     if (user) {
       const token = jwt.sign(
         { id: user._id, isAdmin: user.isAdmin },
-        process.env.JWT_SECRET
+        JWT_SECRET
       );
       // Remove the password from the user object
       const { password, ...rest } = user._doc;
@@ -128,7 +126,7 @@ const google = async (req, res) => {
       // Generate a JWT token
       const token = jwt.sign(
         { id: newUser._id, isAdmin: newUser.isAdmin },
-        process.env.JWT_SECRET
+        JWT_SECRET
       );
       // Remove the password from the user object
       const { password, ...rest } = newUser._doc;
