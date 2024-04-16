@@ -1,5 +1,5 @@
 import { app } from "./app.js";
-import connectDB from "./db/index.db.js";
+import connectDB from "./db/connect.DB.js";
 import { PORT } from "./utils/constants.js";
 
 const startServer = async () => {
